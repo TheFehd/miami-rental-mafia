@@ -330,6 +330,13 @@
   .bk-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
   .bk-badges span{font-size:.75rem;padding:7px 12px;border-radius:999px;background:rgba(56,189,248,.08);border:1px solid var(--border-hi);color:var(--fg)}
   .bk-note{text-align:center;color:var(--muted-2);font-size:.78rem;margin-top:16px}
+
+  /* ---- booking quick date picks ---- */
+  .bk-quick{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+  .bk-quick button{font-family:inherit;font-size:.85rem;padding:11px 15px;border-radius:12px;border:1px solid var(--border-hi);background:rgba(56,189,248,.07);color:var(--fg);cursor:pointer;transition:transform .2s var(--ease),background .2s;font-weight:500}
+  .bk-quick button:hover{background:rgba(56,189,248,.18);transform:translateY(-2px)}
+  .bk-quick button.sel{background:linear-gradient(100deg,var(--blue),var(--sky));color:#04101f;border-color:transparent}
+  .bk-or{font-size:.76rem;color:var(--muted-2);text-align:center;margin:4px 0 12px}
 </style>
 </head>
 <body>
@@ -443,7 +450,7 @@
           </div>
           <div class="bk-body">
             <div class="bk-step on" data-s="0"><h3 class="bk-h">1 · Choose your car</h3><div class="bk-cars" id="bkCars"></div></div>
-            <div class="bk-step" data-s="1"><h3 class="bk-h">2 · When do you need it?</h3>
+            <div class="bk-step" data-s="1"><h3 class="bk-h">2 · When do you need it?</h3><div class="bk-quick" id="bkQuick"><button data-days="1">Tomorrow &middot; 1 day</button><button data-days="3">Weekend &middot; 3 days</button><button data-days="7">A week</button><button data-days="14">Two weeks</button></div><p class="bk-or">&mdash; or pick exact dates &mdash;</p>
               <div class="bk-dates"><div><label>Pick-up</label><input type="date" id="bkStart"></div><div><label>Return</label><input type="date" id="bkEnd"></div></div>
               <div id="bkAvail" class="bk-avail"></div>
               <div class="bk-actions"><button class="btn btn-ghost" data-back>&larr; Back</button><button class="btn btn-primary" id="bkToDetails" disabled>Continue</button></div>
@@ -686,7 +693,7 @@
     }
     var grid=document.getElementById('bkCars');
     grid.innerHTML=cars.map(function(c,i){return '<button class="bk-caro" data-i="'+i+'"><span class="bk-thumb" style="background-image:url(\''+IMG[c.img]+'\')"></span><span class="bk-cn">'+c.name+'</span><span class="bk-cp">$'+c.price+'<i>/day</i></span></button>';}).join('');
-    grid.addEventListener('click',function(e){var b=e.target.closest('.bk-caro');if(!b)return;state.car=cars[+b.dataset.i];[].forEach.call(grid.children,function(x){x.classList.remove('sel');});b.classList.add('sel');setTimeout(function(){go(1);},260);});
+    grid.addEventListener('click',function(e){var b=e.target.closest('.bk-caro');if(!b)return;state.car=cars[+b.dataset.i];[].forEach.call(grid.children,function(x){x.classList.remove('sel');});b.classList.add('sel');if(!s.value){var _t=new Date();_t.setDate(_t.getDate()+1);s.value=_t.toISOString().slice(0,10);}setTimeout(function(){go(1);},260);});
     var s=document.getElementById('bkStart'),en=document.getElementById('bkEnd'),avail=document.getElementById('bkAvail'),cont=document.getElementById('bkToDetails');
     var today=new Date().toISOString().slice(0,10); s.min=today; en.min=today;
     function depNum(d){d=(d||'').replace('$','');return /k/i.test(d)?parseFloat(d)*1000:parseFloat(d);}
@@ -707,7 +714,7 @@
         cont.disabled=false;
       },950);
     }
-    s.addEventListener('change',check);en.addEventListener('change',check);
+    s.addEventListener('change',check);en.addEventListener('change',check);var quick=document.getElementById('bkQuick');if(quick){quick.addEventListener('click',function(e){var qb=e.target.closest('button[data-days]');if(!qb)return;[].forEach.call(quick.children,function(x){x.classList.remove('sel');});qb.classList.add('sel');var t=new Date();t.setDate(t.getDate()+1);s.value=t.toISOString().slice(0,10);var e2=new Date(t);e2.setDate(e2.getDate()+(+qb.dataset.days));en.value=e2.toISOString().slice(0,10);check();});}
     cont.addEventListener('click',function(){go(2);});
     sec.addEventListener('click',function(e){if(e.target.closest('[data-back]')){var cur=+sec.querySelector('.bk-step.on').dataset.s;go(Math.max(0,cur-1));}});
     document.getElementById('bkConfirm').addEventListener('click',function(){

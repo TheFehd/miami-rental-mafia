@@ -337,6 +337,12 @@
   .bk-quick button:hover{background:rgba(56,189,248,.18);transform:translateY(-2px)}
   .bk-quick button.sel{background:linear-gradient(100deg,var(--blue),var(--sky));color:#04101f;border-color:transparent}
   .bk-or{font-size:.76rem;color:var(--muted-2);text-align:center;margin:4px 0 12px}
+
+  /* ---- powered-by credit ---- */
+  .powered{font-size:.8rem;color:var(--muted-2);margin-top:2px;transition:color .25s var(--ease)}
+  .powered b{color:var(--muted);font-weight:600;font-family:'Space Grotesk';transition:color .25s,text-shadow .25s}
+  .powered:hover{color:var(--sky)}
+  .powered:hover b{color:var(--sky);text-shadow:0 0 12px var(--glow)}
 </style>
 </head>
 <body>
@@ -505,6 +511,7 @@
       Follow @miamirentalmafia
     </a>
     <small>Must be 21+ with a valid driver's license. Select vehicles require full-coverage auto insurance. Deposits refundable on a clean, on-time return. © 2026 Miami Rental Mafia · Demo site — reservations are illustrative only.</small>
+    <a class="powered" href="https://hustlgram.com" target="_blank" rel="noopener">Powered by <b>Hustlgram</b></a>
   </div>
 </footer>
 

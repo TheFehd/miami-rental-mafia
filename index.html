@@ -330,6 +330,32 @@
   .bk-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
   .bk-badges span{font-size:.75rem;padding:7px 12px;border-radius:999px;background:rgba(56,189,248,.08);border:1px solid var(--border-hi);color:var(--fg)}
   .bk-note{text-align:center;color:var(--muted-2);font-size:.78rem;margin-top:16px}
+
+  /* ---- ROI calculator ---- */
+  .roi{background:var(--bg)}
+  .roi-grid{display:grid;grid-template-columns:1fr;gap:26px;max-width:980px;margin:0 auto}
+  @media(min-width:900px){.roi-grid{grid-template-columns:360px 1fr;align-items:start}}
+  .roi-inputs{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border-hi);border-radius:22px;padding:28px;box-shadow:0 0 50px -28px var(--glow)}
+  .roi-inputs h3{font-family:'Space Grotesk';font-size:1.15rem;margin-bottom:22px}
+  .roi-field{margin-bottom:24px}
+  .roi-field:last-child{margin-bottom:0}
+  .roi-field label{display:flex;justify-content:space-between;align-items:baseline;font-size:.84rem;color:var(--muted);margin-bottom:13px}
+  .roi-field label b{color:#fff;font-family:'Space Grotesk';font-size:1.1rem;font-weight:700}
+  .roi-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;outline:none;cursor:pointer;
+    background:linear-gradient(90deg,var(--sky) var(--p,40%),rgba(255,255,255,.1) var(--p,40%))}
+  .roi-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--sky);cursor:pointer;box-shadow:0 0 14px var(--glow);transition:transform .15s}
+  .roi-slider::-webkit-slider-thumb:hover{transform:scale(1.18)}
+  .roi-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--sky);cursor:pointer;box-shadow:0 0 14px var(--glow)}
+  .roi-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:460px){.roi-cards{grid-template-columns:1fr}}
+  .roi-card{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border);border-radius:18px;padding:24px}
+  .roi-card.hl{border-color:var(--border-hi);box-shadow:0 0 44px -20px var(--glow)}
+  .roi-card.hl::before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%);top:-110px;right:-70px;filter:blur(10px);opacity:.6}
+  .roi-card .lab{position:relative;font-size:.76rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+  .roi-card .val{position:relative;font-family:'Space Grotesk';font-size:2.1rem;font-weight:700;letter-spacing:-.02em;line-height:1}
+  .roi-card.hl .val{color:var(--sky)}
+  .roi-card .sub{position:relative;font-size:.8rem;color:var(--muted-2);margin-top:8px}
+  .roi-note{text-align:center;color:var(--muted-2);font-size:.78rem;margin-top:26px;max-width:560px;margin-left:auto;margin-right:auto}
 </style>
 </head>
 <body>
@@ -341,6 +367,7 @@
       <a data-scroll="catalog">Catalog</a>
       <a data-scroll="showcase">Showcase</a>
       <a data-scroll="booking">Booking</a>
+      <a data-scroll="roi">ROI</a>
       <a data-scroll="why">Why Us</a>
     </nav>
     <button class="btn btn-primary book-open">
@@ -457,6 +484,32 @@
         </div>
         <p class="bk-note">Live interactive demo — no real charge. This is exactly how the automation would run for your customers.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR -->
+  <section id="roi" class="roi">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">The Math</p>
+        <h2 class="pop">What automation does to your bottom line</h2>
+        <p>Drag the sliders to match your business. Watch the numbers move.</p>
+      </div>
+      <div class="roi-grid reveal">
+        <div class="roi-inputs">
+          <h3>Your numbers</h3>
+          <div class="roi-field"><label>Bookings / month <b id="roiBVal">30</b></label><input type="range" class="roi-slider" id="roiB" min="5" max="150" value="30"></div>
+          <div class="roi-field"><label>Average daily rate <b id="roiRVal">$450</b></label><input type="range" class="roi-slider" id="roiR" min="200" max="1500" step="25" value="450"></div>
+          <div class="roi-field"><label>Average rental length <b id="roiDVal">3 days</b></label><input type="range" class="roi-slider" id="roiD" min="1" max="10" value="3"></div>
+        </div>
+        <div class="roi-cards">
+          <div class="roi-card hl"><div class="lab">Monthly revenue</div><div class="val" id="roiMonthly">$0</div><div class="sub">at full booked capacity</div></div>
+          <div class="roi-card hl"><div class="lab">Annual revenue</div><div class="val" id="roiAnnual">$0</div><div class="sub">projected, 12 months</div></div>
+          <div class="roi-card"><div class="lab">Admin hours saved / mo</div><div class="val" id="roiHours">0h</div><div class="sub">no calls, texts, or spreadsheets</div></div>
+          <div class="roi-card"><div class="lab">Extra revenue / yr</div><div class="val" id="roiExtra">+$0</div><div class="sub">from 24/7 after-hours bookings</div></div>
+        </div>
+      </div>
+      <p class="roi-note">Illustrative estimate. Assumes ~18 min of manual handling saved per booking and ~25% more bookings captured by always-on, instant automation.</p>
     </div>
   </section>
 
@@ -746,6 +799,32 @@
         document.getElementById('bkReset').onclick=function(){state={car:null,days:0};s.value='';en.value='';avail.innerHTML='';avail.className='bk-avail';cont.disabled=true;[].forEach.call(grid.children,function(x){x.classList.remove('sel');});go(0);};
       }
     });
+  })();
+
+  // ---- ROI calculator ----
+  (function(){
+    var B=document.getElementById('roiB'),R=document.getElementById('roiR'),D=document.getElementById('roiD');
+    if(!B) return;
+    var bVal=document.getElementById('roiBVal'),rVal=document.getElementById('roiRVal'),dVal=document.getElementById('roiDVal');
+    var oMo=document.getElementById('roiMonthly'),oYr=document.getElementById('roiAnnual'),oHr=document.getElementById('roiHours'),oEx=document.getElementById('roiExtra');
+    function fill(el){var p=(el.value-el.min)/(el.max-el.min)*100;el.style.setProperty('--p',p+'%');}
+    function money(v){return '$'+Math.round(v).toLocaleString();}
+    function plus(v){return '+$'+Math.round(v).toLocaleString();}
+    function hours(v){return Math.round(v)+'h';}
+    function animate(el,to,fmt){
+      var from=(el._cur||0);el._cur=to;var t0=performance.now(),dur=600;
+      function step(t){var p=Math.min(1,(t-t0)/dur);var e=1-Math.pow(1-p,3);el.textContent=fmt(from+(to-from)*e);if(p<1)requestAnimationFrame(step);}
+      requestAnimationFrame(step);
+    }
+    function calc(){
+      var b=+B.value,r=+R.value,d=+D.value;
+      fill(B);fill(R);fill(D);
+      bVal.textContent=b;rVal.textContent='$'+r;dVal.textContent=d+(d>1?' days':' day');
+      var per=r*d,mo=b*per,yr=mo*12,hrs=b*18/60,extra=Math.round(b*0.25)*per*12;
+      animate(oMo,mo,money);animate(oYr,yr,money);animate(oHr,hrs,hours);animate(oEx,extra,plus);
+    }
+    [B,R,D].forEach(function(s){s.addEventListener('input',calc);});
+    calc();
   })();
 </script>
 </body>
